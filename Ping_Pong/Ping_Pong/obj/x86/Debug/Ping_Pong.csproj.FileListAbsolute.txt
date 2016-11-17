@@ -1,0 +1,8 @@
+C:\Users\p\Documents\Visual Studio 2010\Projects\Ping_Pong\Ping_Pong\bin\Debug\Ping_Pong.exe
+C:\Users\p\Documents\Visual Studio 2010\Projects\Ping_Pong\Ping_Pong\bin\Debug\Ping_Pong.pdb
+C:\Users\p\Documents\Visual Studio 2010\Projects\Ping_Pong\Ping_Pong\obj\x86\Debug\Ping_Pong.Form1.resources
+C:\Users\p\Documents\Visual Studio 2010\Projects\Ping_Pong\Ping_Pong\obj\x86\Debug\Ping_Pong.Properties.Resources.resources
+C:\Users\p\Documents\Visual Studio 2010\Projects\Ping_Pong\Ping_Pong\obj\x86\Debug\Ping_Pong.csproj.GenerateResource.Cache
+C:\Users\p\Documents\Visual Studio 2010\Projects\Ping_Pong\Ping_Pong\obj\x86\Debug\Ping_Pong.exe
+C:\Users\p\Documents\Visual Studio 2010\Projects\Ping_Pong\Ping_Pong\obj\x86\Debug\Ping_Pong.pdb
+C:\Users\p\Documents\Visual Studio 2010\Projects\Ping_Pong\Ping_Pong\obj\x86\Debug\Ping_Pong.csprojResolveAssemblyReference.cache
