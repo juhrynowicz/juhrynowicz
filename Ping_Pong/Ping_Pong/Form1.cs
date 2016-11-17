@@ -20,6 +20,20 @@ namespace Ping_Pong
         private int score_player1=0;
         private int score_player2=0;
         private int max_score = 10;
+        private int speed_racket = 4;
+        private void Default_stats()
+        {
+            int[] speed = new int[] { -2, 2 };
+            Random rnd = new Random();
+            this.speed_left = speed[rnd.Next(0, 2)];
+            this.speed_top = speed[rnd.Next(0, 2)];
+            Ball.Top = rnd.Next(250, 300);
+            Ball.Left = rnd.Next(250, 400);
+            Racket1.Left = 250;
+            Racket2.Left = 250;
+            Timer.Enabled = true;
+            Space.Visible = false;
+        }
         public Form1()
         {
             InitializeComponent();
@@ -27,11 +41,8 @@ namespace Ping_Pong
             Cursor.Hide();
 
         }
-
         private void Timer_Tick(object sender, EventArgs e)
         {
-            
-            
             Space.Left = (playground.Width / 2) - (Space.Width/2);
             Space.Top = (playground.Height / 2) - (Space.Height/2);
             Space.Visible = false;
@@ -40,13 +51,13 @@ namespace Ping_Pong
             gmOver.Visible = false;
             //Ustawienie szybkości przesuwania się graczy
             if (Player_Right1 && Racket1.Left <= playground.Width - Racket1.Width)
-                Racket1.Left += 4;
+                Racket1.Left += speed_racket;
             if (Player_Left1 && Racket1.Left >= 0)
-                Racket1.Left -= 4;
+                Racket1.Left -= speed_racket;
             if (Player_Right2 && Racket2.Left <= playground.Width - Racket1.Width)
-                Racket2.Left += 4;
+                Racket2.Left += speed_racket;
             if (Player_Left2 && Racket2.Left >= 0)
-                Racket2.Left -= 4;
+                Racket2.Left -= speed_racket;
             Ball.Left += speed_left;
             Ball.Top += speed_top;
             if (Ball.Bounds.IntersectsWith(Racket1.Bounds))
@@ -95,8 +106,7 @@ namespace Ping_Pong
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            int[] speed = new int[] {-2,2};
-            Random rnd = new Random();
+            
             //Ustawienie przycisku wyjścia z gry "ESC"
             if (e.KeyCode == Keys.Escape)
                 this.Close();
@@ -121,25 +131,11 @@ namespace Ping_Pong
             }
             if (e.KeyCode == Keys.Space && Timer.Enabled == false)
             {
-                this.speed_left = speed[rnd.Next(0,2)];
-                this.speed_top = speed[rnd.Next(0,2)];
-                Ball.Top = rnd.Next(250, 300);
-                Ball.Left = rnd.Next(250, 400);
-                Timer.Enabled = true;
-                Space.Visible = false;
+                Default_stats();
             }
             if (e.KeyCode == Keys.F1 && Timer.Enabled == false && (score_player1 == max_score || score_player2 == max_score))
             {
-                int index1 = rnd.Next(0, speed.Length-1);
-                int index2 = rnd.Next(0, speed.Length-1);
-                this.speed_left = speed[index1];
-                this.speed_top = speed[index2];
-                Ball.Top = rnd.Next(250,300);
-                Ball.Left = rnd.Next(250, 400);
-                this.score_player2 = 0;
-                this.score_player1 = 0;
-                Timer.Enabled = true;
-                Space.Visible = false;
+                Default_stats();
                 gmOver.Visible = false;
             }
         }
@@ -162,8 +158,5 @@ namespace Ping_Pong
                     break;
             }
         }
-
-        
-
     }
 }
