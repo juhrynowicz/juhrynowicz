@@ -110,7 +110,7 @@
             // 
             // Timer
             // 
-            this.Timer.Interval = 30;
+            this.Timer.Interval = 10;
             this.Timer.Tick += new System.EventHandler(this.Timer_Tick);
             // 
             // Score
@@ -168,7 +168,9 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.Score);
             this.Controls.Add(this.playground);
+            this.DoubleBuffered = true;
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);

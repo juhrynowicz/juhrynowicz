@@ -11,8 +11,8 @@ namespace Ping_Pong
 {
     public partial class Form1 : Form
     {
-        private int speed_left = 2;
-        private int speed_top = 2;
+        private int speed_left = 4;
+        private int speed_top = 4;
         private bool Player_Left1;
         private bool Player_Right1;
         private bool Player_Left2;
@@ -20,7 +20,9 @@ namespace Ping_Pong
         private int score_player1=0;
         private int score_player2=0;
         private int max_score = 10;
-        private int speed_racket = 4;
+        private int speed_racket = 3;
+        private int RandoMin = 3;
+        private int RandoMax = 6;
         private void Default_stats()
         {
             int[] speed = new int[] { -2, 2 };
@@ -41,36 +43,13 @@ namespace Ping_Pong
             Cursor.Hide();
 
         }
-        private void Timer_Tick(object sender, EventArgs e)
+        private void Movement_Ball()
         {
-            Space.Left = (playground.Width / 2) - (Space.Width/2);
-            Space.Top = (playground.Height / 2) - (Space.Height/2);
-            Space.Visible = false;
-            gmOver.Left = (playground.Width / 2) - (gmOver.Width / 2);
-            gmOver.Top = (playground.Height / 2) - (gmOver.Height / 2);
-            gmOver.Visible = false;
-            //Ustawienie szybkości przesuwania się graczy
-            if (Player_Right1 && Racket1.Left <= playground.Width - Racket1.Width)
-                Racket1.Left += speed_racket;
-            if (Player_Left1 && Racket1.Left >= 0)
-                Racket1.Left -= speed_racket;
-            if (Player_Right2 && Racket2.Left <= playground.Width - Racket1.Width)
-                Racket2.Left += speed_racket;
-            if (Player_Left2 && Racket2.Left >= 0)
-                Racket2.Left -= speed_racket;
             Ball.Left += speed_left;
             Ball.Top += speed_top;
-            if (Ball.Bounds.IntersectsWith(Racket1.Bounds))
+            if (Ball.Bounds.IntersectsWith(Racket1.Bounds) || Ball.Bounds.IntersectsWith(Racket2.Bounds))
             {
-                speed_left += 1;
-                speed_top += 1;
-                speed_top = -speed_top;
-            }
-            if (Ball.Bounds.IntersectsWith(Racket2.Bounds))
-            {
-                speed_left -= 1;
-                speed_top -= 1;
-                speed_top = -speed_top;
+                Randomize();
             }
             if (Ball.Left <= playground.Left || Ball.Right >= playground.Right)
             {
@@ -90,6 +69,45 @@ namespace Ping_Pong
                 Timer.Enabled = false;
                 Space.Visible = true;
             }
+        }
+        private void Randomize()
+        {
+            Random r = new Random();
+
+            int s = r.Next(RandoMin, RandoMax);
+            int t = r.Next(RandoMin, RandoMax);
+            speed_top = Ball.Bounds.IntersectsWith(Racket2.Bounds) ? speed_top = s : speed_top = -s;
+            if (speed_left > 0)
+            {
+                speed_left += -t;
+            }
+            else
+            {
+                speed_left += t;
+            }
+        }
+        private void Movement_Speed()
+        {
+            //Ustawienie szybkości przesuwania się graczy
+            if (Player_Right1 && Racket1.Left <= playground.Width - Racket1.Width)
+                Racket1.Left += speed_racket;
+            if (Player_Left1 && Racket1.Left >= 0)
+                Racket1.Left -= speed_racket;
+            if (Player_Right2 && Racket2.Left <= playground.Width - Racket1.Width)
+                Racket2.Left += speed_racket;
+            if (Player_Left2 && Racket2.Left >= 0)
+                Racket2.Left -= speed_racket;
+        }
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            Space.Left = (playground.Width / 2) - (Space.Width/2);
+            Space.Top = (playground.Height / 2) - (Space.Height/2);
+            Space.Visible = false;
+            gmOver.Left = (playground.Width / 2) - (gmOver.Width / 2);
+            gmOver.Top = (playground.Height / 2) - (gmOver.Height / 2);
+            gmOver.Visible = false;
+            Movement_Speed();
+            Movement_Ball();
             if (score_player1 == max_score)
             {
                 Space.Visible = false;
