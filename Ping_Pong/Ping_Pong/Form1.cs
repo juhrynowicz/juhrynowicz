@@ -6,6 +6,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Net;
+using System.Net.Sockets;
+using System.IO;
 
 namespace Ping_Pong
 {
@@ -40,8 +43,36 @@ namespace Ping_Pong
         {
             InitializeComponent();
             Timer.Enabled = true;
-            Cursor.Hide();
 
+        }
+        private void MenuGame()
+        {
+            label4.Left = playground.Right/2 - label4.Left/2;
+            label5.Left = playground.Right / 2 - label4.Left / 2;
+            if (label4.Visible == true || label5.Visible == true)
+            {
+                Racket1.Visible = false;
+                Racket2.Visible = false;
+                Ball.Visible = false;
+                Score.Visible = false;
+                label1.Visible = false;
+                label2.Visible = false;
+                label3.Visible = false;
+                Timer.Enabled = false;
+            }
+        }
+        private void MenuVisible()
+        {
+            Racket1.Visible = true;
+            Racket2.Visible = true;
+            Ball.Visible = true;
+            Score.Visible = true;
+            label1.Visible = true;
+            label2.Visible = true;
+            label3.Visible = true;
+            Timer.Enabled = true;
+            label4.Visible = false;
+            label5.Visible = false;
         }
         private void Movement_Ball()
         {
@@ -100,6 +131,7 @@ namespace Ping_Pong
         }
         private void Timer_Tick(object sender, EventArgs e)
         {
+            MenuGame();
             Space.Left = (playground.Width / 2) - (Space.Width/2);
             Space.Top = (playground.Height / 2) - (Space.Height/2);
             Space.Visible = false;
@@ -175,6 +207,27 @@ namespace Ping_Pong
                     Player_Right1 = false;
                     break;
             }
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+            MenuVisible();
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+            textBox1.Visible = true;
+            textBox2.Visible = true;
+            textBox3.Visible = true;
+            textBox4.Visible = true;
+            button1.Visible = true;
+            button2.Visible = true;
+            label4.Visible = false;
+            label5.Visible = false;
+            label6.Visible = true;
+            label7.Visible = true;
+            label8.Visible = true;
+            label9.Visible = true;
         }
     }
 }
