@@ -117,17 +117,13 @@ namespace Ping_Pong
                 speed_left += t;
             }
         }
-        private void Movement_Speed()
+        private void Movement_Speed(PictureBox racket,bool player_left, bool player_right)
         {
             //Ustawienie szybkości przesuwania się graczy
-            if (Player_Right1 && Racket1.Left <= playground.Width - Racket1.Width)
-                Racket1.Left += speed_racket;
-            if (Player_Left1 && Racket1.Left >= 0)
-                Racket1.Left -= speed_racket;
-            if (Player_Right2 && Racket2.Left <= playground.Width - Racket1.Width)
-                Racket2.Left += speed_racket;
-            if (Player_Left2 && Racket2.Left >= 0)
-                Racket2.Left -= speed_racket;
+            if (player_right && racket.Left <= playground.Width - racket.Width)
+                racket.Left += speed_racket;
+            if (player_left && racket.Left >= 0)
+                racket.Left -= speed_racket;
         }
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -138,8 +134,14 @@ namespace Ping_Pong
             gmOver.Left = (playground.Width / 2) - (gmOver.Width / 2);
             gmOver.Top = (playground.Height / 2) - (gmOver.Height / 2);
             gmOver.Visible = false;
-            Movement_Speed();
+            Movement_Speed(Racket1,Player_Left1,Player_Right1);
+            Movement_Speed(Racket2,Player_Left2,Player_Right2);
             Movement_Ball();
+            MaximumScore();
+        }
+
+        private void MaximumScore()
+        {
             if (score_player1 == max_score)
             {
                 Space.Visible = false;
@@ -156,27 +158,26 @@ namespace Ping_Pong
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            
-            //Ustawienie przycisku wyjścia z gry "ESC"
+            KeysCheck(e,true);
+        }
+
+        private void KeysCheck(KeyEventArgs e, bool isDown)
+        {
             if (e.KeyCode == Keys.Escape)
                 this.Close();
             switch (e.KeyCode)
             {
                 case Keys.A:
-                    Player_Right2 = false;
-                    Player_Left2 = true;
+                    Player_Left2 = isDown;
                     break;
                 case Keys.Left:
-                    Player_Right1 = false;
-                    Player_Left1 = true;
+                    Player_Left1 = isDown;
                     break;
                 case Keys.D:
-                    Player_Left2 = false;
-                    Player_Right2 = true;
+                    Player_Right2 = isDown;
                     break;
                 case Keys.Right:
-                    Player_Left1 = false;
-                    Player_Right1 = true;
+                    Player_Right1 = isDown;
                     break;
             }
             if (e.KeyCode == Keys.Space && Timer.Enabled == false)
@@ -192,21 +193,7 @@ namespace Ping_Pong
 
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
-            switch (e.KeyCode)
-            {
-                case Keys.A:
-                    Player_Left2 = false;
-                    break;
-                case Keys.Left:
-                    Player_Left1 = false;
-                    break;
-                case Keys.D:
-                    Player_Right2 = false;
-                    break;
-                case Keys.Right:
-                    Player_Right1 = false;
-                    break;
-            }
+            KeysCheck(e, false);
         }
 
         private void label4_Click(object sender, EventArgs e)
@@ -228,6 +215,12 @@ namespace Ping_Pong
             label7.Visible = true;
             label8.Visible = true;
             label9.Visible = true;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Socket socket_server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
+            socket_server.Bind(new IPEndPoint(IPAddress.Parse("127.0.0.1"), int.Parse(textBox2.Text)));
         }
     }
 }
