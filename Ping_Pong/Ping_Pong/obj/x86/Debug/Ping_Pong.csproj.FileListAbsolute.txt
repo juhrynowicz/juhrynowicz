@@ -23,3 +23,11 @@ C:\Users\local\Downloads\juhrynowicz-master (1)\juhrynowicz-master\Ping_Pong\Pin
 C:\Users\local\Downloads\juhrynowicz-master (1)\juhrynowicz-master\Ping_Pong\Ping_Pong\obj\x86\Debug\Ping_Pong.Form1.resources
 C:\Users\local\Downloads\juhrynowicz-master (1)\juhrynowicz-master\Ping_Pong\Ping_Pong\obj\x86\Debug\Ping_Pong.Properties.Resources.resources
 C:\Users\local\Downloads\juhrynowicz-master (1)\juhrynowicz-master\Ping_Pong\Ping_Pong\obj\x86\Debug\Ping_Pong.csproj.GenerateResource.Cache
+C:\Users\p\Desktop\juhrynowicz-master\Ping_Pong\Ping_Pong\obj\x86\Debug\Ping_Pong.exe
+C:\Users\p\Desktop\juhrynowicz-master\Ping_Pong\Ping_Pong\obj\x86\Debug\Ping_Pong.pdb
+C:\Users\p\Desktop\juhrynowicz-master\Ping_Pong\Ping_Pong\bin\Debug\Ping_Pong.exe
+C:\Users\p\Desktop\juhrynowicz-master\Ping_Pong\Ping_Pong\bin\Debug\Ping_Pong.pdb
+C:\Users\p\Desktop\juhrynowicz-master\Ping_Pong\Ping_Pong\obj\x86\Debug\Ping_Pong.csprojResolveAssemblyReference.cache
+C:\Users\p\Desktop\juhrynowicz-master\Ping_Pong\Ping_Pong\obj\x86\Debug\Ping_Pong.Form1.resources
+C:\Users\p\Desktop\juhrynowicz-master\Ping_Pong\Ping_Pong\obj\x86\Debug\Ping_Pong.Properties.Resources.resources
+C:\Users\p\Desktop\juhrynowicz-master\Ping_Pong\Ping_Pong\obj\x86\Debug\Ping_Pong.csproj.GenerateResource.Cache

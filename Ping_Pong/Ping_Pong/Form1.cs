@@ -31,10 +31,10 @@ namespace Ping_Pong
             ballList.Add(new Ball(aBall, this, Timer, Racket1, Racket2, spaceLabel));
             bot = new AIBot(Racket2, aBall, this, ballList);
             Timer.Enabled = true;           
-            this.Controls.Remove(aBall);
-            this.Controls.Remove(powerUp);
+            this.Controls.Remove(aBall); //usunięcie piłeczki bazowej
+            this.Controls.Remove(powerUp); //usunięcie bazowego power-upa
         }
-        private void ObjectsColors()
+        private void ObjectsColors() //kolory obiektów
         {
             this.scoreLabel1.ForeColor = SystemColors.ButtonFace;
             this.scoreLabel2.ForeColor = SystemColors.ButtonFace;
@@ -50,7 +50,7 @@ namespace Ping_Pong
             this.vsBot.ForeColor = SystemColors.ButtonFace;
             this.networkMenu.ForeColor = SystemColors.ButtonFace;
         }
-        private void MenuGame()
+        private void MenuGame() //widoczność napisów w menu
         {
             com1Menu.Left = this.Width/2 - com1Menu.Width/2;
             networkMenu.Left = this.Width / 2 - networkMenu.Width/2 ;
@@ -68,7 +68,7 @@ namespace Ping_Pong
                 Timer.Enabled = false;
             }
         }
-        private void MenuVisible()
+        private void MenuVisible() //widoczność obiektów po kliknięciu jednego z opcji w menu
         {
             powerUp.Visible = true;
             Racket1.Visible = true;
@@ -83,7 +83,7 @@ namespace Ping_Pong
             networkMenu.Visible = false;
             vsBot.Visible = false;
         }
-        private void Start_New_Game()
+        private void Start_New_Game() //dodanie nowej piłki oraz ustawienie domyślnych pozycji rakiet
         {
             ballList.Add(new Ball(aBall, this, Timer, Racket1, Racket2, spaceLabel));
             Racket1.Left = 250;
@@ -117,7 +117,7 @@ namespace Ping_Pong
                     this.Controls.Remove(ballList[i].ballPictureBox);
                     ballList.RemoveAt(i);                    
                 }
-                if (ballList.Count == 1 && powerList.Count == 0 && Timer.Enabled == true)
+                if (ballList.Count == 1 && powerList.Count == 0 && Timer.Enabled == true)//dodanie nowego power-upa kiedy jest jedynie jedna piłeczka oraz nie ma innego power-upa
                 {
                     powerList.Add(new PowerUps(aBall, powerUp, this));
                 }
@@ -125,7 +125,7 @@ namespace Ping_Pong
             Score.MaximumScore(spaceLabel,goLabel);
         }
 
-        private void BallHitGround()
+        private void BallHitGround() //ustawienie pozycji napisów kontynuacji gry
         {
             spaceLabel.Left = (this.Width / 2) - (spaceLabel.Width / 2);
             spaceLabel.Top = (this.Height / 2) - (spaceLabel.Height / 2);
@@ -140,7 +140,7 @@ namespace Ping_Pong
             KeysCheck(e,true);
         }
 
-        private void KeysCheck(KeyEventArgs e, bool isDown)
+        private void KeysCheck(KeyEventArgs e, bool isDown) //przycisnki kontrolowanie rakiet oraz wyłączające bądź kontynuujące rozgrywke
         {
             if (e.KeyCode == Keys.Escape)
                 this.Close();

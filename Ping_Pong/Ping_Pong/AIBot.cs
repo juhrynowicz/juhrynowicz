@@ -22,7 +22,7 @@ namespace Ping_Pong
             this.form = form;
             this.ballList = ballList;
         }
-        public void ballFollow()
+        public void ballFollow() //śledzenie piłki przez bota
         {
             aiBot = new Player(racket,form);
             if (ballList[ballList.Count-1].BallLocationX() > racket.Location.X + racket.Width / 2)

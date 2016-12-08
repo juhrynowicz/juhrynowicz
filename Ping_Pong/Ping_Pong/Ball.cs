@@ -22,6 +22,7 @@ namespace Ping_Pong
         public bool hitGround;
         public Ball(PictureBox ball, Form1 form,Timer timer,PictureBox racket1,PictureBox racket2,Label space)
         {
+            //konstruktor dodający nowy obiekt piłka na bazie istniejącego obiektu
             this.form = form;
             this.ball = ball;
             this.ballPictureBox = new PictureBox();
@@ -34,7 +35,7 @@ namespace Ping_Pong
             form.Controls.Add(ballPictureBox);
             Default_stats();
         }
-        public void Default_stats()
+        public void Default_stats() //ustawienia domyślne po uderzeniu piłki w górny lub dolny playground
         {
             int[] speed = new int[] { -2, 2 };
             Random r1 = new Random();
@@ -45,6 +46,8 @@ namespace Ping_Pong
         }
         public void Movement_ball(PictureBox racket1, PictureBox racket2, Label space, Label score1, Label score2, Timer timer,List<Ball> ballList)
         {
+            //metoda ustawiająca poruszanie się piłeczki oraz interakcje z obiektami tj. rakiety oraz boczne ściany playgroundu
+            //oczywiście kwestia poruszania się piłeczki zostaje do modyfikacji
             if (timer.Enabled == true)
             {
                 ballPictureBox.Visible = true;
@@ -68,7 +71,7 @@ namespace Ping_Pong
                 {
                     speed_left = -speed_left;
                 }
-                    if (ballPictureBox.Location.Y >= bottom)
+                    if (ballPictureBox.Location.Y >= bottom) // ustawienie dodawania punktów po uderzeniu w dolny/górny playground
                     {
                         score_player1 += 1;
                         score1.Text = score_player1.ToString();
@@ -96,12 +99,13 @@ namespace Ping_Pong
                 ballPictureBox.Visible = false;
             }
         }
-        public int BallLocationX()
+        public int BallLocationX() //lokalizacja piłki potrzebna dla bota
         {
             return ballPictureBox.Location.X;
         }
         public void BallIntersectsWithPowerUp(PictureBox powerUp,List<Ball> ballList,List<PowerUps> powersList,Form1 form)
         {
+            //interakcja z power-upem dodająca nowy obiekt piłki do listy piłek oraz usunięcie power-up z listy 
             if (powersList.Count > 0)
             {
                 if (ballPictureBox.Bounds.IntersectsWith(powersList[powersList.Count - 1].Bounds()))
