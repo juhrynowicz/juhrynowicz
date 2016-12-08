@@ -9,151 +9,130 @@ using System.Windows.Forms;
 using System.Net;
 using System.Net.Sockets;
 using System.IO;
-
+using System.Media;
 namespace Ping_Pong
 {
     public partial class Form1 : Form
     {
-        private int speed_left = 4;
-        private int speed_top = 4;
-        private bool Player_Left1;
-        private bool Player_Right1;
-        private bool Player_Left2;
-        private bool Player_Right2;
-        private int score_player1=0;
-        private int score_player2=0;
-        private int max_score = 10;
-        private int speed_racket = 3;
-        private int RandoMin = 3;
-        private int RandoMax = 6;
-        private void Default_stats()
-        {
-            int[] speed = new int[] { -2, 2 };
-            Random rnd = new Random();
-            this.speed_left = speed[rnd.Next(0, 2)];
-            this.speed_top = speed[rnd.Next(0, 2)];
-            Ball.Top = rnd.Next(250, 300);
-            Ball.Left = rnd.Next(250, 400);
-            Racket1.Left = 250;
-            Racket2.Left = 250;
-            Timer.Enabled = true;
-            Space.Visible = false;
-        }
+        Player p1, p2;
+        AIBot bot;
+        public List<Ball> ballList;
+        public List<PowerUps> powerList;
+        bool menu1, menu2, menu3;
+        public static string data = null;
         public Form1()
         {
             InitializeComponent();
-            Timer.Enabled = true;
-
+            ObjectsColors();
+            p1 = new Player(Racket1,this);
+            p2 = new Player(Racket2,this);
+            powerList = new List<PowerUps>();
+            ballList = new List<Ball>();
+            ballList.Add(new Ball(aBall, this, Timer, Racket1, Racket2, spaceLabel));
+            bot = new AIBot(Racket2, aBall, this, ballList);
+            Timer.Enabled = true;           
+            this.Controls.Remove(aBall);
+            this.Controls.Remove(powerUp);
+        }
+        private void ObjectsColors()
+        {
+            this.scoreLabel1.ForeColor = SystemColors.ButtonFace;
+            this.scoreLabel2.ForeColor = SystemColors.ButtonFace;
+            this.scoreLabel3.ForeColor = SystemColors.ButtonFace;
+            this.scoreLabel4.ForeColor = SystemColors.ButtonFace;
+            this.spaceLabel.ForeColor = SystemColors.ButtonFace;
+            this.Racket1.BackColor = SystemColors.HotTrack;
+            this.Racket2.BackColor = SystemColors.HotTrack;
+            this.powerUp.BackColor = System.Drawing.Color.Red;
+            this.aBall.BackColor = SystemColors.HotTrack;
+            this.goLabel.ForeColor = SystemColors.ButtonFace;
+            this.com1Menu.ForeColor = SystemColors.ButtonFace;
+            this.vsBot.ForeColor = SystemColors.ButtonFace;
+            this.networkMenu.ForeColor = SystemColors.ButtonFace;
         }
         private void MenuGame()
         {
-            label4.Left = playground.Right/2 - label4.Left/2;
-            label5.Left = playground.Right / 2 - label4.Left / 2;
-            if (label4.Visible == true || label5.Visible == true)
+            com1Menu.Left = this.Width/2 - com1Menu.Left/2;
+            networkMenu.Left = this.Width / 2 - networkMenu.Left / 2;
+            vsBot.Left = this.Width / 2 - vsBot.Left / 2;
+            if (com1Menu.Visible == true || networkMenu.Visible == true)
             {
+                powerUp.Visible = false;
                 Racket1.Visible = false;
                 Racket2.Visible = false;
-                Ball.Visible = false;
-                Score.Visible = false;
-                label1.Visible = false;
-                label2.Visible = false;
-                label3.Visible = false;
+                aBall.Visible = false;
+                scoreLabel1.Visible = false;
+                scoreLabel2.Visible = false;
+                scoreLabel3.Visible = false;
+                scoreLabel4.Visible = false;
                 Timer.Enabled = false;
             }
         }
         private void MenuVisible()
         {
+            powerUp.Visible = true;
             Racket1.Visible = true;
             Racket2.Visible = true;
-            Ball.Visible = true;
-            Score.Visible = true;
-            label1.Visible = true;
-            label2.Visible = true;
-            label3.Visible = true;
+            aBall.Visible = true;
+            scoreLabel1.Visible = true;
+            scoreLabel2.Visible = true;
+            scoreLabel3.Visible = true;
+            scoreLabel4.Visible = true;
             Timer.Enabled = true;
-            label4.Visible = false;
-            label5.Visible = false;
+            com1Menu.Visible = false;
+            networkMenu.Visible = false;
+            vsBot.Visible = false;
         }
-        private void Movement_Ball()
+        private void Start_New_Game()
         {
-            Ball.Left += speed_left;
-            Ball.Top += speed_top;
-            if (Ball.Bounds.IntersectsWith(Racket1.Bounds) || Ball.Bounds.IntersectsWith(Racket2.Bounds))
-            {
-                Randomize();
-            }
-            if (Ball.Left <= playground.Left || Ball.Right >= playground.Right)
-            {
-                speed_left = -speed_left;
-            }
-            if (Ball.Bottom <= playground.Top)
-            {
-                this.score_player2 += 1;
-                this.label3.Text = score_player2.ToString();
-                Timer.Enabled = false;
-                Space.Visible = true;
-            }
-            if (Ball.Top >= playground.Bottom - 100)
-            {
-                this.score_player1 += 1;
-                this.label2.Text = score_player1.ToString();
-                Timer.Enabled = false;
-                Space.Visible = true;
-            }
-        }
-        private void Randomize()
-        {
-            Random r = new Random();
-
-            int s = r.Next(RandoMin, RandoMax);
-            int t = r.Next(RandoMin, RandoMax);
-            speed_top = Ball.Bounds.IntersectsWith(Racket2.Bounds) ? speed_top = s : speed_top = -s;
-            if (speed_left > 0)
-            {
-                speed_left += -t;
-            }
-            else
-            {
-                speed_left += t;
-            }
-        }
-        private void Movement_Speed(PictureBox racket,bool player_left, bool player_right)
-        {
-            //Ustawienie szybkości przesuwania się graczy
-            if (player_right && racket.Left <= playground.Width - racket.Width)
-                racket.Left += speed_racket;
-            if (player_left && racket.Left >= 0)
-                racket.Left -= speed_racket;
+            ballList.Add(new Ball(aBall, this, Timer, Racket1, Racket2, spaceLabel));
+            Racket1.Left = 250;
+            Racket2.Left = 250;
+            Timer.Enabled = true;
+            spaceLabel.Visible = false;
         }
         private void Timer_Tick(object sender, EventArgs e)
         {
             MenuGame();
-            Space.Left = (playground.Width / 2) - (Space.Width/2);
-            Space.Top = (playground.Height / 2) - (Space.Height/2);
-            Space.Visible = false;
-            gmOver.Left = (playground.Width / 2) - (gmOver.Width / 2);
-            gmOver.Top = (playground.Height / 2) - (gmOver.Height / 2);
-            gmOver.Visible = false;
-            Movement_Speed(Racket1,Player_Left1,Player_Right1);
-            Movement_Speed(Racket2,Player_Left2,Player_Right2);
-            Movement_Ball();
-            MaximumScore();
+            BallHitGround();
+            p1.Movement_Speed();
+            if (menu1 == true)
+            {
+                p2.Movement_Speed();
+            }
+            if (menu3 == true)
+            {
+                bot.ballFollow();
+            }
+            if (ballList.Count == 0)
+            {
+                Start_New_Game();
+            }          
+            for(int i = ballList.Count - 1; i >= 0; i--) 
+            {
+                ballList[i].Movement_ball(Racket1, Racket2, spaceLabel, scoreLabel3, scoreLabel4, Timer, ballList);
+                ballList[i].BallIntersectsWithPowerUp(powerUp, ballList, powerList,this);
+                if (ballList[i].hitGround == true)
+                {
+                    this.Controls.Remove(ballList[i].ballPictureBox);
+                    ballList.RemoveAt(i);                    
+                }
+                if (ballList.Count == 1 && powerList.Count == 0)
+                {
+                    powerList.Add(new PowerUps(aBall, powerUp, this));
+                }
+            }
+            Score.MaximumScore(spaceLabel,goLabel);
         }
 
-        private void MaximumScore()
+        private void BallHitGround()
         {
-            if (score_player1 == max_score)
-            {
-                Space.Visible = false;
-                gmOver.Visible = true;
-                this.gmOver.Text = "GAME OVER\nPlayer 1 Won!\nPress F1 to restart\nESC to exit";
-            }
-            if (score_player2 == max_score)
-            {
-                Space.Visible = false;
-                gmOver.Visible = true;
-                this.gmOver.Text = "GAME OVER\nPlayer 2 Won!\nPress F1 to restart\nESC to exit";
-            }
+            spaceLabel.Left = (this.Width / 2) - (spaceLabel.Width / 2);
+            spaceLabel.Top = (this.Height / 2) - (spaceLabel.Height / 2);
+            spaceLabel.Visible = false;
+            goLabel.Left = (this.Width / 2) - (goLabel.Width / 2);
+            goLabel.Top = (this.Height / 2) - (goLabel.Height / 2);
+            goLabel.Visible = false;
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -168,26 +147,26 @@ namespace Ping_Pong
             switch (e.KeyCode)
             {
                 case Keys.A:
-                    Player_Left2 = isDown;
+                    p2.player_left = isDown;
                     break;
                 case Keys.Left:
-                    Player_Left1 = isDown;
+                    p1.player_left = isDown;
                     break;
                 case Keys.D:
-                    Player_Right2 = isDown;
+                    p2.player_right = isDown;
                     break;
                 case Keys.Right:
-                    Player_Right1 = isDown;
+                    p1.player_right = isDown;
                     break;
             }
             if (e.KeyCode == Keys.Space && Timer.Enabled == false)
             {
-                Default_stats();
+                Start_New_Game();
             }
-            if (e.KeyCode == Keys.F1 && Timer.Enabled == false && (score_player1 == max_score || score_player2 == max_score))
+            if (e.KeyCode == Keys.F1 && Timer.Enabled == false && (Score.Player1Won() || Score.Player2Won()))
             {
-                Default_stats();
-                gmOver.Visible = false;
+                Start_New_Game();
+                goLabel.Visible = false;
             }
         }
 
@@ -198,29 +177,41 @@ namespace Ping_Pong
 
         private void label4_Click(object sender, EventArgs e)
         {
+            menu1 = true;
             MenuVisible();
         }
 
         private void label5_Click(object sender, EventArgs e)
         {
-            textBox1.Visible = true;
-            textBox2.Visible = true;
-            textBox3.Visible = true;
-            textBox4.Visible = true;
-            button1.Visible = true;
-            button2.Visible = true;
-            label4.Visible = false;
-            label5.Visible = false;
-            label6.Visible = true;
-            label7.Visible = true;
-            label8.Visible = true;
-            label9.Visible = true;
+            //nettext1.visible = true;
+            //nettext2.visible = true;
+            //nettext3.visible = true;
+            //nettext4.visible = true;
+            //netbutton2.visible = true;
+            //netbutton.visible = true;
+            //com1menu.visible = false;
+            //networkmenu.visible = false;
+            //nethost1.visible = true;
+            //netport1.visible = true;
+            //nethost2.visible = true;
+            //netport2.visible = true;
+            MessageBox.Show("Przegrana walka z socketami\nNadal do nauczenia");
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_click(object sender, EventArgs e)
         {
-            Socket socket_server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
-            socket_server.Bind(new IPEndPoint(IPAddress.Parse("127.0.0.1"), int.Parse(textBox2.Text)));
         }
+
+        private void netbutton_click(object sender, EventArgs e)
+        {
+        }
+
+        private void vsBot_Click(object sender, EventArgs e)
+        {
+            menu3 = true;
+            MenuVisible();
+        }
+       
+        
     }
 }
