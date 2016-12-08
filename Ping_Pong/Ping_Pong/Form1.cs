@@ -52,9 +52,9 @@ namespace Ping_Pong
         }
         private void MenuGame()
         {
-            com1Menu.Left = this.Width/2 - com1Menu.Left/2;
-            networkMenu.Left = this.Width / 2 - networkMenu.Left / 2;
-            vsBot.Left = this.Width / 2 - vsBot.Left / 2;
+            com1Menu.Left = this.Width/2 - com1Menu.Width/2;
+            networkMenu.Left = this.Width / 2 - networkMenu.Width/2 ;
+            vsBot.Left = this.Width / 2 - vsBot.Width/2;
             if (com1Menu.Visible == true || networkMenu.Visible == true)
             {
                 powerUp.Visible = false;
@@ -117,7 +117,7 @@ namespace Ping_Pong
                     this.Controls.Remove(ballList[i].ballPictureBox);
                     ballList.RemoveAt(i);                    
                 }
-                if (ballList.Count == 1 && powerList.Count == 0)
+                if (ballList.Count == 1 && powerList.Count == 0 && Timer.Enabled == true)
                 {
                     powerList.Add(new PowerUps(aBall, powerUp, this));
                 }

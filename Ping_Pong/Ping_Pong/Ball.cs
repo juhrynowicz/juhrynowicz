@@ -37,11 +37,11 @@ namespace Ping_Pong
         public void Default_stats()
         {
             int[] speed = new int[] { -2, 2 };
-            Random rnd = new Random();
-            speed_left = speed[rnd.Next(0, 2)];
-            speed_top = speed[rnd.Next(0, 2)];
-            ballPictureBox.Top = rnd.Next(250, 300);
-            ballPictureBox.Left = rnd.Next(250, 400);
+            Random r1 = new Random();
+            speed_left = speed[r1.Next(0, 2)];
+            speed_top = speed[r1.Next(0, 2)];
+            ballPictureBox.Top = r1.Next(250, 300);
+            ballPictureBox.Left = r1.Next(250, 400);
         }
         public void Movement_ball(PictureBox racket1, PictureBox racket2, Label space, Label score1, Label score2, Timer timer,List<Ball> ballList)
         {
@@ -52,8 +52,16 @@ namespace Ping_Pong
                 var right = form.Width;
                 ballPictureBox.Left += speed_left;
                 ballPictureBox.Top += speed_top;
-                if (ballPictureBox.Bounds.IntersectsWith(racket1.Bounds) || ballPictureBox.Bounds.IntersectsWith(racket2.Bounds))
+                if (ballPictureBox.Bounds.IntersectsWith(racket1.Bounds))
                 {
+                    speed_left += 1;
+                    speed_top += 1;
+                    speed_top = -speed_top;
+                }
+                if (ballPictureBox.Bounds.IntersectsWith(racket2.Bounds))
+                {
+                    speed_left -= 1;
+                    speed_top -= 1;
                     speed_top = -speed_top;
                 }
                 if (ballPictureBox.Left <= 0 || ballPictureBox.Right >= right)
@@ -81,8 +89,7 @@ namespace Ping_Pong
                             space.Visible = true;
                             timer.Enabled = false;
                             }
-                    }
-                
+                    }                
             }
             else
             {
@@ -99,6 +106,10 @@ namespace Ping_Pong
             {
                 if (ballPictureBox.Bounds.IntersectsWith(powersList[powersList.Count - 1].Bounds()))
                 {
+                    int[] speed = new int[] { -2, 2 };
+                    Random r1 = new Random();
+                    speed_left = speed[r1.Next(0, 2)];
+                    speed_top = speed[r1.Next(0, 2)];
                     ballList.Add(new Ball(ball, form, timer, racket1, racket2, space));
                     ballList[ballList.Count - 1].Default_stats();
                     form.Controls.Remove(powersList[powersList.Count - 1].powerUp);
