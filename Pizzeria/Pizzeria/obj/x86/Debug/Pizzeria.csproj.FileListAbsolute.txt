@@ -1,0 +1,8 @@
+C:\Users\p\AppData\Local\Temporary Projects\Pizzeria\bin\Debug\Pizzeria.exe
+C:\Users\p\AppData\Local\Temporary Projects\Pizzeria\bin\Debug\Pizzeria.pdb
+C:\Users\p\AppData\Local\Temporary Projects\Pizzeria\obj\x86\Debug\Pizzeria.exe
+C:\Users\p\AppData\Local\Temporary Projects\Pizzeria\obj\x86\Debug\Pizzeria.pdb
+C:\Users\p\Documents\Visual Studio 2010\Projects\Pizzeria\Pizzeria\obj\x86\Debug\Pizzeria.exe
+C:\Users\p\Documents\Visual Studio 2010\Projects\Pizzeria\Pizzeria\obj\x86\Debug\Pizzeria.pdb
+C:\Users\p\Documents\Visual Studio 2010\Projects\Pizzeria\Pizzeria\bin\Debug\Pizzeria.exe
+C:\Users\p\Documents\Visual Studio 2010\Projects\Pizzeria\Pizzeria\bin\Debug\Pizzeria.pdb
